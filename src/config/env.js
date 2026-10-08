@@ -10,8 +10,16 @@ export const DEFAULT_PORT = 2568;
 
 export const config = {
   port: Number(process.env.PORT || DEFAULT_PORT),
-  // Any local port: Vite moves to 5174, 5175... when 5173 is taken by another project.
-  allowedOrigins: list(process.env.CLIENT_ORIGIN, 'http://localhost:*,http://127.0.0.1:*'),
+  // Any local port: Vite moves to 5174, 5175... when 5173 is taken by another project. The Bloxity play pages
+  // (ball-vs-ball.play.bloxity.io, ball-vs-ball.dev.play.bloxity.io) are always allowed: Legion doesn't pass
+  // CLIENT_ORIGIN through to the container.
+  allowedOrigins: [
+    ...list(process.env.CLIENT_ORIGIN, 'http://localhost:*,http://127.0.0.1:*'),
+    'https://bloxity.io',
+    'https://*.bloxity.io',
+    'https://*.play.bloxity.io',
+    'https://*.dev.play.bloxity.io',
+  ],
   dataDir: resolve(serverRoot, process.env.DATA_DIR || 'data'),
   // Bloxity: the slug this game is registered under, where its API is, and the secret its Gems webhook sends
   // (x-legion-webhook-secret). Without a secret the webhook refuses every call (Bloxity then refunds the Gems).
