@@ -1,5 +1,5 @@
 import { BALL_IDS, isBall } from './balls.js';
-import { mulberry32, resolveFight, SIM } from './duelSim.js';
+import { MS_PER_TICK, mulberry32, resolveFight } from './duelSim.js';
 
 // One 1v1 duel, from both players standing on their spots to someone running out of hearts. Pure state: the
 // time is passed in, nothing runs on its own. The server keeps the real one; offline, the client runs one
@@ -29,7 +29,6 @@ export const DUEL_TIMING = {
 
 export const SIDES = ['pink', 'blue'];
 export const otherSide = (side) => (side === 'pink' ? 'blue' : 'pink');
-const msPerTick = 1000 / SIM.tickRate;
 const OPEN = new Set(['intro', 'choose', 'aim', 'fight']);
 
 /** `players`: { pink: { id, name, avatar, allowed }, blue: { ... } }; `allowed`: the balls they may use (all if left out). */
@@ -95,7 +94,7 @@ function startFight(match, at) {
   const { winner, ticks } = resolveFight(setup);
   const loser = otherSide(winner);
   const startsAt = at + DUEL_TIMING.goMs;
-  const endsAt = startsAt + Math.round(ticks * msPerTick);
+  const endsAt = startsAt + Math.round(ticks * MS_PER_TICK);
   match.players[loser].hearts -= 1;
   match.fight = { setup, startsAt, endsAt, ticks, winner, loser };
   match.phase = 'fight';
