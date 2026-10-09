@@ -1,5 +1,6 @@
 # Ball vs Ball game server image, built and pushed by .github/workflows/deploy-bloxity.yml.
-FROM node:20-alpine
+# The official node image, pulled from AWS's public mirror: Docker Hub rate-limits GitHub's runners (HTTP 429).
+FROM public.ecr.aws/docker/library/node:22-alpine
 
 WORKDIR /app
 ENV NODE_ENV=production
