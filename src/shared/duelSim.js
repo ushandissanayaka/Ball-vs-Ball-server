@@ -8,6 +8,13 @@ import { BALLS } from './balls.js';
 
 /** The box is `size` x `size` units, y up. A fight that runs `maxTicks` is decided on health left. */
 export const SIM = { size: 100, tickRate: 60, maxTicks: 60 * 45 };
+/**
+ * How fast a fight plays out on screen (1: as simulated, 0.7: 30% slower). The sim and its outcome stay the same:
+ * only the time each tick takes on screen changes, so the duel lasts longer.
+ */
+export const PLAYBACK_SPEED = 0.7;
+/** Real milliseconds per fight tick, as both the server (when a fight ends) and the screens (playing it) count them. */
+export const MS_PER_TICK = 1000 / SIM.tickRate / PLAYBACK_SPEED;
 export const START = { pink: [25, 50], blue: [75, 50] };
 
 const DT = 1 / SIM.tickRate;
